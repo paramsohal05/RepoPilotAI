@@ -1,5 +1,22 @@
 # RepoPilot AI: Automated Repository Management Agent
 
+<p align="center">
+  <img src="photo.png" width="420" />
+</p>
+
+<h1 align="center">🚀 RepoPilot AI</h1>
+
+<p align="center">
+  <strong>Create & Delete GitHub Repositories — Seamlessly. Automatically. Intelligently.</strong>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10+-blue" />
+  <img src="https://img.shields.io/badge/GitHub%20Automation-Enabled-success" />
+  <img src="https://img.shields.io/badge/Status-Active-brightgreen" />
+</p>
+
+
 ## 🚀 Project Overview
 
 RepoPilot AI is an intelligent agent designed to automate the lifecycle management of code repositories (creation and deletion) using natural language commands. It eliminates manual, repetitive setup tasks by integrating the power of the Google Gemini model's Function Calling capabilities with the GitHub API.
@@ -15,15 +32,16 @@ Intelligent Metadata Extraction: Automatically parses critical repository parame
 Reliable Function Calling: Uses Gemini to orchestrate external API calls, ensuring the correct action (creation or deletion) is executed with validated parameters.
 
 ## 📂 Folder Structure
-
-.
-├── .env                  # Environment variables (API Keys, Tokens)
-├── .gitignore            # Standard Python file exclusion rules
-├── __init__.py           # Makes the directory a Python package (empty)
-├── agent.py              # The core application logic and Gemini agent setup
-├── README.md             # This file
-└── requirements.txt      # List of project dependencies
-
+```
+RepoPilotAI/
+│── agent.py
+│── requirements.txt
+│── README.md
+│── .gitignore
+│── .env ← NOT TRACKED BY GIT
+│── init.py
+│── venv/ ← LOCAL ONLY (DO NOT UPLOAD)
+```
 
 # 🔧 Installation & Setup
 
