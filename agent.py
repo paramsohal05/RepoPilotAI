@@ -105,7 +105,7 @@ root_agent = Agent(
     name='github_agent',
     description='An assistant that helps to create and delete github repos.',
     instruction="""
-        You are an assistant that can create and delete github repositories using the provided tools.
+        You are a Github Repository Management specialist that can create and delete github repositories using the provided tools.
         If the user does not specify respository name, description, public/private status, ask them to provide these details. 
         once you receive the details, create repo using tool 'create_git_repo'.
         In case user wants to delete a repository, ask them the repository name and then delete using tool 'del_git_repo'.
