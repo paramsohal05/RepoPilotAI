@@ -1,3 +1,14 @@
+"""
+RepoPilotAI explores how large language models interpret high-level
+instructions and translate them into structured, executable actions.
+
+The agent separates probabilistic LLM reasoning from deterministic
+code execution to reduce unintended side effects.
+"""
+
+
+
+
 from google.adk.agents.llm_agent import Agent
 
 import os
@@ -9,6 +20,10 @@ import sys
 GITHUB_USERNAME=os.getenv("GITHUB_USERNAME")
 GITHUB_TOKEN=os.getenv("GITHUB_TOKEN")
 
+#CREATE REPO FUNCTION TOOL
+# External side effects (GitHub API calls) are isolated here.
+# This ensures model reasoning does not directly trigger actions without validation.
+
 
 def create_git_repo(repo_name:str, description:str='', private:bool=True):
     """
@@ -17,8 +32,8 @@ def create_git_repo(repo_name:str, description:str='', private:bool=True):
 
     Args:
         repo_name(str): The name of the repository to create.
-        description(str): A brief description of the repository if not provided, use deafult empty string.
-        private(bool): Wheather the repository should be private. Default is True.
+        description(str): A brief description of the repository if not provided, use default empty string.
+        private(bool): Whether the repository should be private. Default is True.
 
     """
     api_url=f"https://api.github.com/user/repos"
@@ -35,14 +50,14 @@ def create_git_repo(repo_name:str, description:str='', private:bool=True):
         "auto_init":False
     }
 
-    print(f"Creating respository '{repo_name}'...")
+    print(f"Creating repository '{repo_name}'...")
 
     try:
         response=requests.post(api_url, headers=headers, data=json.dumps(data))
         response.raise_for_status()
 
         repo_data=response.json()
-        print(f"Repositoey '{repo_name}' created succesfully at '{repo_data['html_url']}")
+        print(f"Repositoey '{repo_name}' created successfully at '{repo_data['html_url']}")
         print("Use the following commands to link the local repository:")
         print(f"git remote add origin '{repo_data['clone_url']}'")
         print("git push -u origin main")
@@ -57,6 +72,11 @@ def create_git_repo(repo_name:str, description:str='', private:bool=True):
     
     except Exception as e: 
         print(f"An unexpected error occurred: '{e}'", file=sys.stderr)
+
+#DELETE REPO FUNCTION TOOL
+# Destructive actions are kept fully deterministic.
+# The LLM never executes deletions directly.
+
 
 def del_git_repo(repo_name:str):
     """
@@ -78,7 +98,7 @@ def del_git_repo(repo_name:str):
         "Accept":"application/vnd.github.v3+json"
     }
     
-    print(f"Attempting to delete repository '{repo_name}")
+    print(f"Attempting to delete repository '{repo_name}'")
 
     try:
         response=requests.delete(api_url, headers=headers)
@@ -99,14 +119,17 @@ def del_git_repo(repo_name:str):
     
     except Exception as e:
         print(f"An unexpected error occurred: '{e}'", file=sys.stderr)
-    
+
+# The prompt is intentionally structured to constrain the model.
+# Without explicit structure, LLMs often hallucinate parameters or actions.  
+
 root_agent = Agent(
     model='gemini-2.5-flash',
     name='github_agent',
     description='An assistant that helps to create and delete github repos.',
     instruction="""
         You are a Github Repository Management specialist that can create and delete github repositories using the provided tools.
-        If the user does not specify respository name, description, public/private status, ask them to provide these details. 
+        If the user does not specify repository name, description, public/private status, ask them to provide these details. 
         once you receive the details, create repo using tool 'create_git_repo'.
         In case user wants to delete a repository, ask them the repository name and then delete using tool 'del_git_repo'.
         Before deleting repo, always confirm with the user to avoid accidental deletions.
