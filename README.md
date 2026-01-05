@@ -1,4 +1,4 @@
-# RepoPilot AI: Automated Repository Management Agent
+# RepoPilotAI — Exploring LLM-Driven Agents for Task Interpretation & Execution
 
 <p align="center">
   <img src="photo.png" width="420" />
@@ -7,29 +7,96 @@
 <h1 align="center">🚀 RepoPilot AI</h1>
 
 <p align="center">
-  <strong>Create & Delete GitHub Repositories — Seamlessly. Automatically. Intelligently.</strong>
+<strong>
+  A lightweight AI agent that explores how large language models interpret ambiguous instructions and translate them into structured, executable actions.
+</strong>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10+-blue" />
-  <img src="https://img.shields.io/badge/GitHub%20Automation-Enabled-success" />
-  <img src="https://img.shields.io/badge/Status-Active-brightgreen" />
+  <img src="https://img.shields.io/badge/AI-indigo" />
 </p>
 
 
 ## 🚀 Project Overview
 
-RepoPilot AI is an intelligent agent designed to automate the lifecycle management of code repositories (creation and deletion) using natural language commands. It eliminates manual, repetitive setup tasks by integrating the power of the Google Gemini model's Function Calling capabilities with the GitHub API.
+RepoPilotAI is a lightweight AI agent built to explore how large language models (LLMs) can interpret high-level, natural-language instructions and convert them into structured actions using external APIs.
 
-This project demonstrates how AI agents can reliably interpret complex, unstructured developer instructions (including required metadata like licenses, visibility, and .gitignore templates) and translate them into structured, executable API calls.
+Rather than focusing on scale or production readiness, this project was designed as a learning experiment to understand:
+- How LLMs extract structured parameters from unstructured text
+- Where agent reasoning fails without constraints
+- How function calling can reduce ambiguity in execution
 
-## ✨ Key Features
+The agent currently supports repository creation and deletion via the GitHub API, using Google Gemini’s function-calling capabilities as a controlled interface between model reasoning and deterministic code.
 
-Natural Language Commands: Create or delete repositories using conversational instructions (e.g., "Create a private Python project named MyService with an MIT license").
+## Motivation
 
-Intelligent Metadata Extraction: Automatically parses critical repository parameters (name, description, visibility, license, etc.) from human text.
+I built RepoPilotAI to move beyond prompt-based demos and explore how AI agents reason about real actions in the world.
 
-Reliable Function Calling: Uses Gemini to orchestrate external API calls, ensuring the correct action (creation or deletion) is executed with validated parameters.
+As a self-taught software engineer transitioning toward AI research, I wanted to understand:
+- How probabilistic model outputs interact with deterministic systems
+- Why naive agent autonomy often fails
+- How structure and validation improve reliability
+
+This project represents my early steps toward research-oriented questions about agentic intelligence rather than a finished product.
+
+## Agent Capabilities
+- Interprets natural-language instructions to determine user intent (create vs delete)
+- Extracts structured parameters (name, visibility, license) from free-form text
+- Uses LLM function calling to bridge model reasoning with API execution
+- Executes validated actions through the GitHub REST API
+
+## Architecture & Reasoning Flow
+
+User Instruction  
+→ Prompt Construction  
+→ LLM Reasoning (Intent + Parameters)  
+→ Function Calling (Structured Output)  
+→ Deterministic Validation  
+→ GitHub API Execution  
+
+The system deliberately separates probabilistic reasoning (LLM) from deterministic execution (Python logic) to reduce unintended actions.
+
+## What I Learned
+
+- LLMs confidently generate incorrect parameters when instructions are ambiguous
+- Function calling significantly reduces unsafe or unintended executions
+- Explicit constraints outperform purely autonomous loops
+- Small agent systems fail in predictable ways that can be studied and improved
+
+These observations motivated me to think more deeply about evaluation, safety, and structure in agent design.
+
+## Limitations & Failure Cases
+
+- The agent does not currently check for existing repositories before attempting creation
+- No formal evaluation metrics are used
+- The system lacks memory or multi-step planning
+- Behavior depends heavily on prompt phrasing
+
+These limitations are intentional and highlight areas for future experimentation.
+
+## Why This Is Not Production-Ready
+
+RepoPilotAI is intentionally not designed as a production system.
+
+The goal of this project was to explore agent reasoning and tool execution using LLMs, not to optimize for scale, security, or robustness. As a result, several production concerns are intentionally out of scope:
+
+- No formal authorization or role-based access controls
+- Limited input validation beyond basic parameter checks
+- No retry, rollback, or audit mechanisms
+- No protection against prompt injection or malicious inputs
+- No monitoring, logging, or cost control safeguards
+
+These trade-offs allowed me to focus on understanding how probabilistic model reasoning interacts with deterministic code, and where structure is necessary to prevent unintended actions.
+
+
+## Future Research Directions
+
+- Introduce evaluation benchmarks for agent reliability
+- Add multi-step planning and state tracking
+- Experiment with memory-augmented agents
+- Compare function calling vs tool-use approaches
+- Study failure recovery mechanisms
 
 ## 📂 Folder Structure
 ```
@@ -104,40 +171,4 @@ repo permissions
 delete_repo permission
 
 .env is already ignored via .gitignore.
-
-
-## 🧠 How It Works (Architecture)
-RepoPilot AI consists of three simple layers:
-
-1. Input Layer
-User provides:
-
-Repository name
-
-Description
-
-Action (create/delete)
-
-2. Secure Auth Layer
-Reads credentials from .env file
-
-3. GitHub API Layer
-Uses requests to:
-
-Send POST request to create repo
-
-Send DELETE request to delete repo
-
-The process is lightweight, fast, and beginner-friendly.
-
-## 🔮 Future Enhancements
-✨ Add repo renaming
-
-✨ Support repo templates
-
-✨ Auto-generate README for new repos
-
-✨ Multi-agent system for DevOps workflows
-
-✨ Web dashboard for non-technical users
 
